@@ -56,5 +56,8 @@ eq("org mismatch", E.orgMatches("GO DADDY PARKING", { name: "HDFC Bank", officia
 const t0 = Date.now();
 for (let i = 0; i < 100; i++) E.instantAnalyze("https://hdfc.bank.in/login");
 console.log("x100:", (Date.now() - t0) + "ms");
+// 10. registrableDomain must keep .bank.in whole (was returning "bank.in")
+eq("reg hdfc.bank.in", E.registrableDomain("hdfc.bank.in"), "hdfc.bank.in");
+eq("reg www.icicibank.com", E.registrableDomain("www.icicibank.com"), "icicibank.com");
 if (fail) { console.error(fail + " FAILURES"); process.exit(1); }
 console.log("ALL V3 TESTS PASS");

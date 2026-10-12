@@ -104,7 +104,7 @@ function extractUrls(text) {
 function registrableDomain(host) {
   if (!host || /^\d{1,3}(\.\d{1,3}){3}$/.test(host)) return host;
   const p = host.split("."); if (p.length <= 2) return host;
-  const MULTI = ["co.in", "org.in", "net.in", "com.in", "ac.in", "edu.in", "gov.in", "res.in", "co.uk", "org.uk", "com.au", "co.jp", "com.br", "co.za", "co.nz"];
+  const MULTI = ["bank.in", "co.in", "org.in", "net.in", "com.in", "ac.in", "edu.in", "gov.in", "res.in", "co.uk", "org.uk", "com.au", "co.jp", "com.br", "co.za", "co.nz"];
   const l2 = p.slice(-2).join(".");
   if (MULTI.indexOf(l2) >= 0 && p.length >= 3) return p.slice(-3).join(".");
   return l2;
