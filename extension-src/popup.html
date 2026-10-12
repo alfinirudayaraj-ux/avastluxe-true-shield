@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+body{width:300px;margin:0;padding:14px;background:#0A0C13;color:#F5F1E6;font:12px/1.6 sans-serif}
+h1{font-size:14px;color:#F6E27A;margin:0 0 8px;letter-spacing:1px}
+input{width:100%;box-sizing:border-box;background:#1a1d29;border:1px solid #D4AF37;color:#fff;border-radius:8px;padding:9px;font-size:12px}
+button{width:100%;margin-top:8px;border:0;border-radius:8px;padding:10px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#F6E27A,#8A6D1B);font-size:12px}
+#out{margin-top:10px;font-size:11.5px}#out b{color:#F6E27A}
+.row{display:flex;justify-content:space-between;font-size:11px;color:#9A94A6;padding:3px 0}
+a{color:#F6E27A;font-size:11px}
+</style></head><body>
+<h1>🛡️ TRUE SHIELD</h1>
+<input id="u" placeholder="Paste any link — https://…">
+<button id="go">🔍 CHECK NOW</button>
+<div id="out">Instant verdict in ~1ms, live DNS + registry + site after.</div>
+<div class="row"><span>Last browser-wide verdict</span><b id="lv">—</b></div>
+<div id="lvd" style="font-size:11px;color:#9A94A6"></div>
+<p><a href="https://alfinirudayaraj-ux.github.io/avastluxe-true-shield/site/" target="_blank">Open True Website →</a><br><a href="https://alfinirudayaraj-ux.github.io/avastluxe-true-shield/app/" target="_blank">Open True App →</a></p>
+<script src="true-engine.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+chrome.storage.local.get("lastVerdict",d=>{
+  const v=d.lastVerdict;
+  if(v){$("lv").textContent=v.verdict+" "+v.score;$("lvd").textContent=v.title+" • "+String(v.url).slice(0,60);}
+});
+$("go").onclick=async()=>{
+  const raw=$("u").value.trim();if(!raw)return;
+  const E=self.TrueEngine;
+  const target=(E.extractUrls(raw)[0]||raw);
+  const inst=E.instantAnalyze(raw);
+  $("out").innerHTML="<b>Instant ("+inst.ms+"ms): "+inst.verdict.toUpperCase()+"</b><br>"+(inst.hits[0]||"checking…")+"<br>⏳ live check running…";
+  chrome.runtime.sendMessage({type:"DEEP_CHECK",url:target},r=>{
+    if(!r)return;
+    $("out").innerHTML="<b>"+r.title+" ("+r.score+"/100)</b><br>"+r.why.slice(0,600);
+  });
+};
+</script></body></html>
